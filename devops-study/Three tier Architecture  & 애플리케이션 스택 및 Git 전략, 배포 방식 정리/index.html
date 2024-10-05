@@ -1,0 +1,1177 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../CMDB%20%EA%B7%B8%EB%A6%AC%EA%B3%A0%20Tag%20Policy/">
+      
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+    
+    
+      
+        <title>Three tier Architecture & 애플리케이션 스택 및 Git 전략, 배포 방식 정리 - obsidian-mkdocs template</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deployment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="obsidian-mkdocs template" class="md-header__button md-logo" aria-label="obsidian-mkdocs template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            obsidian-mkdocs template
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Three tier Architecture  & 애플리케이션 스택 및 Git 전략, 배포 방식 정리
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="pink" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="obsidian-mkdocs template" class="md-nav__button md-logo" aria-label="obsidian-mkdocs template" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    obsidian-mkdocs template
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Obsidian Notes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Archive
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Devops study
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Devops study
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CMDB%20%EA%B7%B8%EB%A6%AC%EA%B3%A0%20Tag%20Policy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CMDB 그리고 Tag Policy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Three tier Architecture  & 애플리케이션 스택 및 Git 전략, 배포 방식 정리
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Three tier Architecture  & 애플리케이션 스택 및 Git 전략, 배포 방식 정리
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cicd-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      CI/CD pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prod
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git Branch 전략
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git Branch 전략">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main" class="md-nav__link">
+    <span class="md-ellipsis">
+      main
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dev_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      dev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      feature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bugfix" class="md-nav__link">
+    <span class="md-ellipsis">
+      bugfix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hotfix" class="md-nav__link">
+    <span class="md-ellipsis">
+      hotfix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor" class="md-nav__link">
+    <span class="md-ellipsis">
+      refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      docs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      test
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conf" class="md-nav__link">
+    <span class="md-ellipsis">
+      conf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cicd-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      CI/CD pipeline
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment Steps
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment Steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prod" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prod
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#git-branch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Git Branch 전략
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Git Branch 전략">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#main" class="md-nav__link">
+    <span class="md-ellipsis">
+      main
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dev_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      dev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      feature
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bugfix" class="md-nav__link">
+    <span class="md-ellipsis">
+      bugfix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hotfix" class="md-nav__link">
+    <span class="md-ellipsis">
+      hotfix
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#refactor" class="md-nav__link">
+    <span class="md-ellipsis">
+      refactor
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      docs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test" class="md-nav__link">
+    <span class="md-ellipsis">
+      test
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conf" class="md-nav__link">
+    <span class="md-ellipsis">
+      conf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>Three tier Architecture  & 애플리케이션 스택 및 Git 전략, 배포 방식 정리</h1>
+
+<p>3티어 아키텍처란, 어떤 플랫폼을 3계층으로 나누어 별도의 논리적/물리적인 장치에 구축 및 운영하는 형태를 말합니다. 가장 널리 사용되는 구조이기도 합니다.</p>
+<ul>
+<li>프레젠테이션 계층(Presentation Layer - Client Tier)<ul>
+<li>사용자가 직접 마주하게 되는 계층을 의미합니다.</li>
+<li>보통 브라우저를 통해 로드되는 화면부를 지칭하므로, Front-end로 정리된다. 다만 이때 데이터를 처리하는 로직등은 포함하지 않습니다.</li>
+</ul>
+</li>
+<li>어플리케이션 계층(Business Logic Layer - Application Layer)<ul>
+<li>요청되는 정보를 정해진 규칙에 따라 처리하고 가공하는 것을 담당하는 계층입니다.</li>
+<li>클라이언트 입장에서는 요청을 보내게 되는 서버로 보여지고, 데이터 계층에서는 요청을 하는 클라이언트로 보여집니다. 동적인 데이터 처리 및 응답, 데이터 계층으로의 데이터 요청등을 담당합니다.</li>
+</ul>
+</li>
+<li>데이터 계층(Data Layer - Data Tier)<ul>
+<li>데이터 계층은 데이터 베이스와 데이터베이스에 접근하여 데이터를 읽거나 쓰는 것을 관리하는 것을 포함합니다. </li>
+<li>주로 DBMS 로 나누게 됩니다.</li>
+</ul>
+</li>
+<li>아래 표는 3tier 아키텍처에 대한 예시 그림 입니다.</li>
+</ul>
+<p><img alt="three_tier_architecture.drawio.png" src="../three_tier_architecture.drawio.png" /></p>
+<ol>
+<li>사용자 계층에 대해 현재 CloudFront(CDN)를 이용한 client 측의 배포 및 서비스 운영을 하고 있어서, Client Tier로 정리 했습니다. </li>
+<li>실제로 데이터 조작 및 비즈니스 로직을 수행하는, 서버단인 ELB -&gt; ECS 에 대해 Application Tier로 정리 했습니다.</li>
+<li>마지막으로 Data Tier는 DBMS 인 AWS RDS 로 정리 했습니다.</li>
+</ol>
+<p>현재 운영중인 아키텍쳐에서는 AWS ECS 기반한 3 Tier 아키텍처로 이루어져 있고, MAU나 DAU 등에 스트레스가 많은 서비스는 아니다. </p>
+<p>개발하는 애플리케이션 스택은 </p>
+<p>Frontend: Dart 
+Framework: Flutter web build
+배포: S3 -&gt; CF with codepipeline(code build, code deploy)
+Language: Python 3.10.12
+Framework: FastAPI
+DBMS: RDS Aurora PostgreSQL
+배포: ECS with AWS codepipeline(code build, code deploy)</p>
+<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h2>
+<h3 id="cicd-pipeline">CI/CD pipeline<a class="headerlink" href="#cicd-pipeline" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p>소스부터 서비스 배포까지 모든 빌드 및 배포 단계는 AWS CodePipeline을 통해 CI/CD 파이프라인으로 구성했으며 다음과 같은 흐름으로 서비스가 배포됩니다.<br />
+    #### 개발<br />
+<code>GitHub  &gt; (python code) &gt; CodeBuild &gt; (docker image) &gt; ECR &gt; (docker image) &gt; CodeDeploy &gt; (docker image) &gt; ECS &gt; (container) &gt; CodeBuild(pytest)</code><br />
+    #### 운영<br />
+<code>GitHub &gt; (python code) &gt; CodeBuild &gt; (docker image) &gt; ECR &gt; (docker image) &gt; CodeDeploy &gt; (docker image) &gt; ECS</code>  </p>
+</li>
+<li>
+<p>배포 결과는 workchat 메시지로 개발은 52g Studio Dev Test에 운영은 52g Studio 그룹방에 공지됩니다.  </p>
+</li>
+</ul>
+<h3 id="deployment-steps">Deployment Steps<a class="headerlink" href="#deployment-steps" title="Permanent link">&para;</a></h3>
+<h4 id="dev">Dev<a class="headerlink" href="#dev" title="Permanent link">&para;</a></h4>
+<p>1) 설치된 패키지에 변경이 있다면, 아래 두 방법 중 하나를 실행<br />
+   1) <code>base</code> 이미지를 새로 빌드하고 ECR에 푸시하기 위해 로컬에서 docker/build/base_image_build.sh를 실행<br />
+   2) 설치된 파이썬 패키지를 기술한 requirements.txt의 변경을 인식하면, 자동으로 base image를 빌드하는 CI/CD 파이프라인을 자동으로 트리거<br />
+2) <code>dev</code> 브랜치에 푸시 또는 병합이 발생하면 AWS CodePipepline이 GitHub의 <code>dev</code> 브랜치 변경사항을 인지하여 CI/CD 파이프라인을 자동으로 트리거<br />
+3) GitHub의 <code>dev</code> 브랜치에서 병합된 소스를 zip으로 패키징하여 CodeBuild로 전달하면 api에 대한 docker image를 빌드하고 ECR로 푸시 4) CodeDeploy는 CodeBuild에서 전달받은 ECR의 위치와 ECS의 작업 정의 버전을 참고하여 ECS에 새로운 api 컨테이너를 생성<br />
+   1) 소스 코드에 문제가 있어서 배포에 실패하면 workchat 메시지로 실패를 전달하며, 직접 문제를 해결하고 다시 파이프라인을 릴리스<br />
+   2) 소스 코드에 문제는 없지만, CodeDeploy가 appspec 파일 못찾는 경우는 자동으로 재시도<br />
+5) CodeDeploy 배포가 성공하면 CodeBuild에서 pytest를 이용해 새로 배포된 API를 대상으로 테스트 케이스를 실행하고 결과 리포트 생성<br />
+   1) 모두 <strong>passed</strong> 한 경우에 배포 결과는 workchat 메시지로 전달 <br />
+2) 테스트 케이스에서 <strong>failed</strong> 나 <strong>error</strong> 가 발생하면, 파이프라인은 중지되고 테스트 결과를 workchat 메시지로 전달  </p>
+<h4 id="prod">Prod<a class="headerlink" href="#prod" title="Permanent link">&para;</a></h4>
+<p>1) <code>dev</code> 브랜치를 <code>main</code> 브랜치로 병합하면 AWS CodePipepline이 GitHub의 <code>main</code> 브랜치 변경사항을 인지하여 CI/CD 파이프라인을 자동으로 트리거<br />
+2) CodePipepline의 수동 승인 요청<br />
+   1) prod-bastion(EC2)에 접속해서 최신 <code>main</code> 브랜치의 소스를 패치<br />
+   2) base 이미지를 새로 빌드하고 ECR에 푸시하기 위해 docker/build/prod-base_image_build.sh를 실행<br />
+   3) 수동 승인을 확인하고 CI/CD 파이프라인을 계속 진행<br />
+3) GitHub의 <code>main</code> 브랜치에서 병합된 소스를 zip으로 패키징하여 CodeBuild로 전달하면 api에 대한 docker image를 빌드하고 ECR로 푸시 4) CodeDeploy는 CodeBuild에서 전달받은 ECR의 위치와 ECS의 작업 정의 버전을 참고하여 ECS에 새로운 api 컨테이너를 생성<br />
+   4) 소스 코드에 문제가 있어서 배포에 실패하면 workchat 메시지로 실패를 전달하며, 직접 문제를 해결하고 다시 파이프라인을 릴리스<br />
+   5) 소스 코드에 문제는 없지만, CodeDeploy가 appspec 파일 못찾는 경우는 자동으로 재시도</p>
+<p>Dockerfile-base
+<div class="highlight"><pre><span></span><code>FROM python:3.10
+
+
+
+WORKDIR /sample(가칭)
+
+
+
+# Install dependencies
+
+COPY requirements.txt ./requirements.txt
+
+RUN pip install -r ./requirements.txt
+</code></pre></div></p>
+<p>Dockerfile
+<div class="highlight"><pre><span></span><code>FROM ***********
+
+
+
+WORKDIR /sample(가칭)
+
+
+
+# Copy modules and tests
+
+COPY api ./api
+
+COPY utils ./utils
+
+COPY tests ./tests
+
+COPY *.py ./
+
+# Copy configuration files
+
+COPY *.ini ./
+
+# Copy static, template files
+
+COPY static ./static
+
+COPY templates ./templates
+
+
+
+# Copy docker bootstrap and sync batch scripts
+
+COPY docker/*.sh ./
+
+RUN chmod +x ./*.sh
+
+
+
+# Create directory for sync data
+
+RUN mkdir -p /sample/sync_data
+
+VOLUME [&quot;/sample/sync_data&quot;]
+
+
+
+EXPOSE 8080
+
+
+
+# Run the command on container startup
+
+ENTRYPOINT [&quot;bash&quot;, &quot;./boot.sh&quot;]
+</code></pre></div></p>
+<p>base_image_build.sh
+<div class="highlight"><pre><span></span><code>#!/bin/bash
+
+# ENVIRONMENT VARIABLES
+
+REPOSITORY_URI=&quot;********&quot;
+
+COMMIT_HASH=$(git log -1 --grep &#39;requirements.txt&#39; --pretty=format:&quot;%h&quot;)
+
+IMAGE_TAG=${COMMIT_HASH:=latest}
+
+AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:=ap-northeast-2}
+
+# PRE-BUILD
+
+echo &quot;Logging in to Amazon ECR...&quot;
+
+echo &quot;AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}&quot;
+
+aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin ********
+
+echo &quot;COMMIT_HASH=&quot;$COMMIT_HASH
+
+echo &quot;IMAGE_TAG=&quot;$IMAGE_TAG
+
+
+
+# BUILD
+
+echo &quot;Build started on `date`&quot;
+
+echo &quot;Building the Base Docker image...&quot;
+
+
+
+docker build --platform linux/amd64 -t $REPOSITORY_URI:latest -f ../Dockerfile-base ../..
+
+docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+
+
+
+## POST
+
+echo &quot;Build completed on `date`&quot;
+
+echo &quot;Pushing the Base Docker images...&quot;
+
+docker push $REPOSITORY_URI:latest
+
+docker push $REPOSITORY_URI:$IMAGE_TAG
+</code></pre></div></p>
+<p>api_image_build.sh
+<div class="highlight"><pre><span></span><code>AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:=ap-northeast-2}
+
+# PRE-BUILD
+
+echo &quot;Logging in to Amazon ECR...&quot;
+
+echo &quot;AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}&quot;
+
+aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
+
+echo &quot;COMMIT_HASH=&quot;$COMMIT_HASH
+
+echo &quot;IMAGE_TAG=&quot;$IMAGE_TAG
+
+
+
+# BUILD
+
+echo &quot;Build started on `date`&quot;
+
+echo &quot;Building the API Docker image...&quot;
+
+
+
+docker build -t $REPOSITORY_URI:latest -f ../Dockerfile ../..
+
+docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+
+
+
+## POST
+
+echo &quot;Build completed on `date`&quot;
+
+echo &quot;Pushing the API Docker images...&quot;
+
+docker push $REPOSITORY_URI:latest
+
+docker push $REPOSITORY_URI:$IMAGE_TAG
+</code></pre></div></p>
+<p>현재 회사의 Git 브랜치 전략을 공유 드립니다.</p>
+<h2 id="git-branch">Git Branch 전략<a class="headerlink" href="#git-branch" title="Permanent link">&para;</a></h2>
+<ul>
+<li>개발은 로컬 환경에서 작업 단위로 <code>feature</code> 브랜치를 생성해서 개발 및 테스트 후, 리모트의 <code>feature</code> 브랜치로 푸시하고 리모트의 <code>dev</code> 브랜치에 <br />
+PR을 생성하여 코드 리뷰 후에 병합합니다. 개발 배포 및 테스트 완료 후, <code>main</code> 브랜치로 병합하여 운영 환경으로 배포합니다.  </li>
+<li>브랜치 종류  </li>
+<li>기본 브랜치: 항상 존재하는 브랜치로 <code>main</code>(또는 <code>master</code>), <code>dev</code>가 있습니다.  <ul>
+<li>
+<h4 id="main">main<a class="headerlink" href="#main" title="Permanent link">&para;</a></h4>
+  운영 환경에 배포해서 서비스할(production-ready) 코드는 <code>origin/main</code>에 두고 관리  </li>
+<li>
+<h4 id="dev_1">dev<a class="headerlink" href="#dev_1" title="Permanent link">&para;</a></h4>
+  개발 환경에 배포해서 테스트할(test-ready) 코드는  <code>origin/dev</code> 두고 관리  </li>
+</ul>
+</li>
+<li>보조 브랜치: 임시로 존재하는 브랜치로 각 목적에 맞게 사용하고 기본 브랜치에 병합하고 더 이상 사용하지 않으면 삭제합니다. <br />
+<code>feature</code>(기능), <code>hotfix</code>(긴급 버그 수정), <code>refactor</code>(리팩토링), <code>test</code>(테스트), <code>conf</code>(설정)가 있습니다.  <ul>
+<li>
+<h4 id="feature">feature<a class="headerlink" href="#feature" title="Permanent link">&para;</a></h4>
+</li>
+<li>곧 배포할 기능을 개발할 브랜치로 <code>dev</code>에서 분기되며, 개발이 완료되면 다시 <code>dev</code> 브랜치에 병합합니다.   </li>
+<li><code>feature</code> 브랜치명은 <code>feature/{작업 또는 기능 요약}</code> 형식으로 만들며, 다음과 같은 과정으로 작업을 진행합니다.<br />
+  1) <code>dev</code>에서 <code>feature</code> 브랜치를 분기(예, 사용자 로그인 관련 작업)<br />
+<code>$ git checkout -b feature/sign-in dev</code>
+   2)  개발이 완료되면 커밋한 코드를 로컬 <code>feature</code> 브랜치를 리모트 <code>feature</code> 브랜치로 생성하고 푸시 <br />
+   <div class="highlight"><pre><span></span><code>    $ git push --set-upstream origin feature/sign-in  
+</code></pre></div>
+   3) <code>dev</code>로 병합하기 전에 리모트 <code>feature</code> 브랜치에서 PR(Pull Request, 풀 리퀘스트) 생성<br />
+   4) (선택) PR 생성 시, 코드 리뷰 진행  </li>
+<li>
+<h4 id="bugfix">bugfix<a class="headerlink" href="#bugfix" title="Permanent link">&para;</a></h4>
+</li>
+<li>배포한 버전에 수정을 해야 할 필요가 있을 경우, <code>dev</code> 브랜치에서 분기하는 브랜치입니다.  </li>
+<li><code>bugfix</code> 브랜치명은 <code>bugfix/{작업 또는 기능 요약}</code>(예, <code>bugfix/employee-sync-json</code>)형식으로 만들며 다음과 같은 과정으로 작업을 진행합니다.<br />
+    1) 배포한 버전에 수정을 해야 할 필요가 있을 경우, <code>dev</code> 브랜치에서 <code>bugfix</code> 브랜치로 분기<br />
+    2) 나머지 과정은 <code>feature</code> 브랜치 작업과 동일  </li>
+<li>
+<h4 id="hotfix">hotfix<a class="headerlink" href="#hotfix" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p>배포한 버전에 긴급하게 수정을 해야 할 필요가 있을 경우, <code>main</code> 브랜치에서 분기하는 브랜치입니다. <br />
+<code>dev</code> 브랜치에서 문제가 되는 부분을 수정하여 배포 가능한 버전을 만들기에는 시간도 많이 소요되고 안정성을 보장하기도 어려우므로 바로 배포가 가능한   <code>main</code> 브랜치에서 직접 브랜치를 만들어 필요한 부분만을 수정한 후 다시 <code>main</code> 브랜치에 병합하여 배포합니다.</p>
+</li>
+<li>
+<p><code>hotfix</code> 브랜치명은 <code>hotfix-{#major.#minor.#hotfix}</code>(예, <code>hotfix-{1.2.1}</code>)형식으로 만들며 다음과 같은 과정으로 작업을 진행합니다.<br />
+    1) 배포한 버전에 긴급하게 수정을 해야 할 필요가 있을 경우, <code>main</code> 브랜치에서 <code>hotfix</code> 브랜치로 분기<br />
+    2) 버그를 빠르게 수정하고, 다시 <code>main</code> 브랜치에 병합하고 다시 배포<br />
+    3) 새롭게 태깅<br />
+    4) <code>hotfix</code> 브랜치의 변경 사항은 <code>dev</code> 브랜치에도 병합 </p>
+<ul>
+<li>
+<h4 id="refactor">refactor<a class="headerlink" href="#refactor" title="Permanent link">&para;</a></h4>
+</li>
+<li>특정 모듈(기능명 또는 API명)에 리팩토링이 필요한 경우에 <code>dev</code> 브랜치에서 분기하는 브랜치입니다.  </li>
+<li>기능의 변경이 없으므로, 반드시 기존 테스트 케이스가 깨지지 않아야 합니다.  </li>
+<li><code>refactor</code> 브랜치명은 <code>refactor/{기능명 또는 API명}</code>(예, <code>refactor/sign-in</code>)형식으로 만들며 다음과 같은 과정으로 작업을 진행합니다.<br />
+ 1) 리팩토링이 필요한 경우, <code>dev</code> 브랜치에서 <code>refactor</code> 브랜치로 분기<br />
+ 2) 나머지 과정은 <code>feature</code> 브랜치 작업과 동일  </li>
+<li>
+<h4 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h4>
+</li>
+<li>전체 프로젝트(readme.md)나 API에 대한 문서화(swagger)가 필요한 경우에 <code>dev</code> 브랜치에서 분기하는 브랜치입니다.  </li>
+<li><code>docs</code> 브랜치명은 <code>docs/{작업 또는 기능 요약}</code>(예, <code>docs/monitoring-tools</code>)형식으로 만들며 다음과 같은 과정으로 작업을 진행합니다.<br />
+  1) 문서화가 필요한 경우, <code>dev</code> 브랜치에서 <code>docs</code> 브랜치로 분기<br />
+  2) 나머지 과정은 <code>feature</code> 브랜치 작업과 동일  </li>
+<li>
+<h4 id="test">test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h4>
+</li>
+<li>테스트 관련 작업(테스트 케이스 등)이 필요한 경우에 <code>dev</code> 브랜치에서 분기하는 브랜치입니다.  </li>
+<li><code>test</code> 브랜치명은 <code>test/{테스트 관련 작업명}</code>(예, <code>test/sign-in</code>)형식으로 만들며 다음과 같은 과정으로 작업을 진행합니다.<br />
+ 1) 테스트 관련 작업이 필요한 경우, <code>dev</code> 브랜치에서 <code>test</code> 브랜치로 분기<br />
+ 2) 나머지 과정은 <code>test</code> 브랜치 작업과 동일 (코드 리뷰는 생략)  </li>
+<li>
+<h4 id="conf">conf<a class="headerlink" href="#conf" title="Permanent link">&para;</a></h4>
+</li>
+<li>설정 관련 작업(appspec 리비전 변경 등)이 필요한 경우에 <code>dev</code> 브랜치에서 분기하는 브랜치입니다.  </li>
+<li><code>conf</code> 브랜치명은 <code>conf/{설정 관련 작업명}</code>(예, <code>conf/datadog-agent-env</code>)형식으로 만들며 다음과 같은 과정으로 작업을 진행합니다.<br />
+ 1) 설정 관련 작업이 필요한 경우, <code>dev</code> 브랜치에서 <code>conf</code> 브랜치로 분기<br />
+ 2) 나머지 과정은 <code>conf</code> 브랜치 작업과 동일 (코드 리뷰는 생략)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
